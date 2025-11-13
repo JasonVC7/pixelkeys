@@ -1,0 +1,3174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>PixelKeys – Insert the Key, Open the Gate, Play to the Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #050816;
+      --card: #0b1024;
+      --card-soft: #111827;
+      --accent: #22c55e;
+      --accent-2: #38bdf8;
+      --accent-3: #f97316;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.28);
+      --radius-xl: 1.8rem;
+      --radius-lg: 1.25rem;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.7);
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.25s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 0 0, #1e293b 0, #020617 40%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* NAVBAR */
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.97), rgba(15, 23, 42, 0.7), transparent);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+    }
+
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      gap: 1.25rem;
+      position: relative;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 1rem;
+      background: radial-gradient(circle at 30% 20%, #38bdf8, transparent 60%),
+                  radial-gradient(circle at 70% 80%, #22c55e, transparent 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.4);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      font-size: 0.95rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 0.1rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.2rem;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--accent-2), var(--accent));
+      border-radius: 999px;
+      transition: width var(--transition-fast);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+    }
+
+    .chip {
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--muted);
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .chip:hover {
+      border-color: var(--accent-2);
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent-2);
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.9);
+    }
+
+    .btn-outline {
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.95);
+      font-size: 0.8rem;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent-2);
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+    }
+
+    .cart-wrapper {
+      position: relative;
+    }
+
+    .cart-button {
+      position: relative;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.95);
+      font-size: 0.9rem;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .cart-button:hover {
+      border-color: var(--accent-2);
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+    }
+
+    .cart-badge {
+      min-width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: var(--accent-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .mini-cart {
+      position: absolute;
+      right: 0;
+      top: 120%;
+      width: 260px;
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+      padding: 0.75rem;
+      font-size: 0.8rem;
+      display: none;
+      z-index: 40;
+    }
+
+    .mini-cart-header {
+      font-weight: 500;
+      margin-bottom: 0.35rem;
+    }
+
+    .mini-cart-items {
+      max-height: 210px;
+      overflow-y: auto;
+      margin-bottom: 0.4rem;
+    }
+
+    .mini-cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px dashed rgba(148, 163, 184, 0.25);
+    }
+
+    .mini-cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .mini-cart-name {
+      font-size: 0.78rem;
+    }
+
+    .mini-cart-price {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .mini-cart-footer {
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      padding-top: 0.4rem;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .mini-cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+    }
+
+    .mini-cart-actions {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .mini-cart-actions button {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      padding: 0.35rem 0.55rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .mini-cart-actions button:first-child {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text);
+    }
+
+    .mini-cart-actions button:last-child {
+      background: var(--accent-3);
+      color: #111827;
+    }
+
+    .mini-cart-actions button:hover {
+      transform: translateY(-1px);
+    }
+
+    .mini-cart-empty {
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 0.4rem 0;
+    }
+
+    /* LOGIN DROPDOWN */
+
+    .login-dropdown {
+      position: absolute;
+      right: 0;
+      top: 120%;
+      width: 280px;
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+      padding: 0.9rem;
+      font-size: 0.8rem;
+      z-index: 40;
+      display: none;
+    }
+
+    .login-title {
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+    }
+
+/* CONTENEDOR DE LOS BOTONES */
+.btn-social {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(56,189,248,0.35);
+  background: rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+    /* ICÓNOS IMAGEN */
+    .btn-social .icon img {
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
+    }
+
+    /* TEXTO */
+    .btn-social .social-text {
+        color: #38bdf8;       /* Azul PixelKeys */
+        font-weight: 600;     /* Negrita */
+        font-size: 0.95rem;
+    }
+
+    /* EFECTO HOVER PREMIUM */
+    .btn-social:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(56,189,248,0.35);
+        border-color: transparent;
+    }
+
+    /* GOOGLE — HOVER DEGRADADO */
+    .btn-social.google:hover {
+        background: linear-gradient(135deg, #f97316, #ef4444);
+    }
+
+    /* FACEBOOK — HOVER DEGRADADO */
+    .btn-social.facebook:hover {
+        background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+    }
+
+    .login-divider {
+      margin: 0.45rem 0;
+      border-top: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .btn-login-submit {
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 0.4rem;
+      color: #020617;
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.4);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+    }
+
+    .btn-login-submit:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+      box-shadow: 0 16px 40px rgba(34, 197, 94, 0.5);
+    }
+
+    .login-legal {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .login-legal a {
+      color: var(--accent-2);
+    }
+
+    .login-legal a:hover {
+      text-decoration: underline;
+    }
+
+    .login-register {
+      margin-top: 0.35rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .login-register a {
+      color: var(--accent);
+    }
+
+    .login-register a:hover {
+      text-decoration: underline;
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 2.4rem 0 2rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 3vw, 2.7rem);
+      line-height: 1.1;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(to right, var(--accent-2), var(--accent));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 30rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #020617;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 14px 35px rgba(34, 197, 94, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) translateX(1px);
+      filter: brightness(1.05);
+      box-shadow: 0 18px 40px rgba(34, 197, 94, 0.45);
+    }
+
+    .btn-ghost {
+      padding: 0.7rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.85);
+      font-size: 0.85rem;
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      border-color: var(--accent-2);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .hero-meta strong {
+      color: var(--accent-2);
+      font-weight: 500;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at 0 0, #38bdf8 0, transparent 55%),
+                  radial-gradient(circle at 100% 100%, #22c55e 0, transparent 55%),
+                  var(--card-soft);
+      padding: 1.4rem;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-card-tag {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      align-self: flex-start;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-card-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .hero-card-copy h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-card-copy p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      max-width: 12rem;
+    }
+
+    .hero-controller {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #0f172a, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.9);
+    }
+
+    .hero-controller::before,
+    .hero-controller::after {
+      content: "";
+      position: absolute;
+      inset: 12%;
+      border-radius: 1.5rem;
+      background: conic-gradient(from 200deg, rgba(34, 197, 94, 0.2), transparent 40%, rgba(56, 189, 248, 0.3), transparent 70%, rgba(248, 250, 252, 0.2));
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      filter: blur(1px);
+    }
+
+    .hero-controller-inner {
+      position: relative;
+      width: 80%;
+      height: 60%;
+      border-radius: 1.7rem;
+      background: linear-gradient(145deg, #0f172a, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.4rem 0.6rem;
+    }
+
+    .pad-cross,
+    .pad-buttons {
+      display: grid;
+      gap: 0.18rem;
+    }
+
+    .pad-cross {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pad-dot,
+    .pad-btn {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #e5e7eb, #6b7280);
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+
+    .pad-buttons {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.7rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .hero-card-footer span strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .hero-card-footer button {
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      border: none;
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text);
+      font-size: 0.78rem;
+      cursor: pointer;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      transition: background var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .hero-card-footer button:hover {
+      background: rgba(15, 23, 42, 1);
+      border-color: var(--accent-2);
+      transform: translateY(-1px);
+    }
+
+    /* TAGLINE */
+
+    .tagline {
+      padding: 0.5rem 0 2.2rem;
+    }
+
+    .tagline-inner {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.1), transparent 55%),
+                  rgba(15, 23, 42, 0.92);
+      padding: 1.4rem 1.7rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .tagline-text {
+      font-weight: 500;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: grid;
+      gap: 0.1rem;
+    }
+
+    .tagline-text span:nth-child(1) {
+      color: var(--accent-2);
+    }
+
+    .tagline-text span:nth-child(2) {
+      color: var(--accent);
+    }
+
+    .tagline-text span:nth-child(3) {
+      color: var(--text);
+    }
+
+    .tagline-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      max-width: 16rem;
+      text-align: right;
+    }
+
+    /* GENERIC SECTION */
+
+    .section {
+      padding: 1.8rem 0 2.4rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .section-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* FEATURED CAROUSEL */
+
+    .carousel {
+      position: relative;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at 0 0, #0f172a, #020617 55%);
+      padding: 1.2rem;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .carousel-window {
+      position: relative;
+      overflow: hidden;
+      border-radius: calc(var(--radius-xl) - 0.7rem);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform var(--transition-med);
+    }
+
+    .carousel-slide {
+      position: relative;
+      min-width: 100%;
+      height: 260px;
+      border-radius: calc(var(--radius-xl) - 1rem);
+      overflow: hidden;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+      isolation: isolate;
+    }
+
+    .carousel-slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 0, rgba(15, 23, 42, 0.2), transparent 50%),
+                  linear-gradient(to top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.15));
+      z-index: 0;
+    }
+
+    .carousel-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      width: 100%;
+      gap: 1.5rem;
+    }
+
+    .carousel-info h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .carousel-info p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      max-width: 20rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .carousel-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .carousel-tag {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.75);
+    }
+
+    .carousel-price {
+      font-size: 0.9rem;
+      margin-top: 0.4rem;
+    }
+
+    .carousel-price strong {
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    .carousel-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.7rem;
+    }
+
+    .btn-buy {
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent-3);
+      color: #111827;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 14px 35px rgba(248, 113, 22, 0.45);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+    }
+
+    .btn-buy:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+      box-shadow: 0 18px 40px rgba(248, 113, 22, 0.6);
+    }
+
+    .carousel-timer {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 1.1rem;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
+      transition: background var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
+    }
+
+    .carousel-arrow:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-50%) translateX(1px);
+    }
+
+    .carousel-arrow-left {
+      left: 1.4rem;
+    }
+
+    .carousel-arrow-right {
+      right: 1.4rem;
+    }
+
+    .carousel-dots {
+      margin-top: 0.7rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.35);
+      transition: width var(--transition-fast), background var(--transition-fast);
+    }
+
+    .dot.active {
+      width: 18px;
+      background: linear-gradient(to right, var(--accent-2), var(--accent));
+    }
+
+    /* BENEFITS */
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .benefit-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 60%),
+                  rgba(15, 23, 42, 0.95);
+      padding: 1rem;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .benefit-icon {
+      font-size: 1.3rem;
+    }
+
+    .benefit-title {
+      font-weight: 500;
+    }
+
+    .benefit-text {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    /* CATEGORY CARDS */
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.8rem;
+      font-size: 0.82rem;
+    }
+
+    .category-card {
+      border-radius: 1rem;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.18), transparent 55%),
+                  rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      padding: 0.85rem 0.9rem;
+      display: grid;
+      gap: 0.25rem;
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .category-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-2);
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.9);
+    }
+
+    .category-icon {
+      font-size: 1.1rem;
+    }
+
+    .category-label {
+      font-weight: 500;
+    }
+
+    .category-desc {
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    /* CATALOG */
+
+    .catalog {
+      padding: 1.8rem 0 2.6rem;
+    }
+
+    .catalog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .search-wrapper {
+      position: relative;
+      max-width: 260px;
+      flex: 1;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.5rem 0.8rem 0.5rem 2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      font-size: 0.8rem;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    .search-input::placeholder {
+      color: rgba(148, 163, 184, 0.8);
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.55rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+      font-size: 0.78rem;
+    }
+
+    .filter-chip {
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.92);
+      cursor: pointer;
+      color: var(--muted);
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
+    }
+
+    .filter-chip.active {
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      border-color: transparent;
+      color: #020617;
+      transform: translateY(-1px);
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .product-card {
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      font-size: 0.8rem;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-2);
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.95);
+    }
+
+    .product-thumb {
+      height: 120px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .product-body {
+      padding: 0.7rem 0.8rem 0.6rem;
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    .product-name {
+      font-weight: 500;
+      font-size: 0.86rem;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .product-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      font-size: 0.7rem;
+    }
+
+    .badge {
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--muted);
+    }
+
+    .badge.primary {
+      border-color: rgba(56, 189, 248, 0.7);
+      color: var(--accent-2);
+    }
+
+    .badge.warning {
+      border-color: rgba(248, 113, 22, 0.8);
+      color: var(--accent-3);
+    }
+
+    .product-footer {
+      padding: 0.5rem 0.8rem 0.7rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .product-price {
+      font-size: 0.9rem;
+    }
+
+    .product-price strong {
+      color: var(--accent);
+      font-size: 1.02rem;
+    }
+
+    .btn-add {
+      border-radius: 999px;
+      border: none;
+      padding: 0.35rem 0.75rem;
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--accent);
+      font-size: 0.76rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .btn-add:hover {
+      background: rgba(34, 197, 94, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .catalog-empty {
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding-top: 0.8rem;
+    }
+
+    /* DEALS */
+
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .deal-card {
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      padding: 0.9rem;
+      display: grid;
+      gap: 0.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .deal-tag {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(248, 113, 22, 0.9);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .deal-title {
+      font-weight: 500;
+      font-size: 0.86rem;
+      margin-top: 0.1rem;
+    }
+
+    .deal-meta {
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .deal-price {
+      font-size: 0.9rem;
+    }
+
+    .deal-price strong {
+      color: var(--accent);
+      font-size: 1.02rem;
+    }
+
+    .deal-old {
+      text-decoration: line-through;
+      color: rgba(148, 163, 184, 0.7);
+      font-size: 0.72rem;
+      margin-left: 0.25rem;
+    }
+
+    .deal-footer {
+      margin-top: 0.3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .deal-footer button {
+      border: none;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--accent);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .deal-footer button:hover {
+      background: rgba(34, 197, 94, 0.19);
+      transform: translateY(-1px);
+    }
+
+    /* SUPPORT */
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr);
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .faq {
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .faq details {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 0.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.6rem 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    .faq summary {
+      list-style: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .faq summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq summary::after {
+      content: "+";
+      float: right;
+      color: var(--muted);
+    }
+
+    .faq details[open] summary::after {
+      content: "−";
+    }
+
+    .faq p {
+      margin-top: 0.35rem;
+      color: var(--muted);
+    }
+
+    .support-card {
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 1rem;
+      font-size: 0.8rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .support-card h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .pay-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .pill-pay {
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+
+    .contact-form label {
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      border-radius: 0.6rem;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      font-size: 0.78rem;
+      padding: 0.4rem 0.6rem;
+      outline: none;
+    }
+
+    .contact-form textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .contact-form button {
+      justify-self: flex-start;
+      margin-top: 0.2rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      padding: 0.45rem 1.1rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #020617;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(34, 197, 94, 0.4);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+    }
+
+    .contact-form button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+      box-shadow: 0 14px 35px rgba(34, 197, 94, 0.5);
+    }
+
+    /* CART PANEL */
+
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(3px);
+      z-index: 60;
+      display: none;
+    }
+
+    .cart-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(360px, 90vw);
+      height: 100%;
+      background: rgba(15, 23, 42, 0.98);
+      box-shadow: -18px 0 40px rgba(15, 23, 42, 0.9);
+      z-index: 70;
+      transform: translateX(100%);
+      transition: transform var(--transition-med);
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      font-size: 0.8rem;
+      border-left: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .cart-panel.open {
+      transform: translateX(0);
+    }
+
+    .cart-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .cart-panel-header h3 {
+      font-size: 0.95rem;
+    }
+
+    .cart-panel-close {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .cart-panel-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 0.3rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .cart-panel-item {
+      border-radius: 0.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.6rem 0.7rem;
+      display: grid;
+      gap: 0.2rem;
+    }
+
+    .cart-panel-item-name {
+      font-weight: 500;
+    }
+
+    .cart-panel-item-meta {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .cart-panel-footer {
+      border-top: 1px solid rgba(148, 163, 184, 0.3);
+      padding-top: 0.6rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .cart-panel-footer-total {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .cart-panel-actions {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .cart-panel-actions button {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .cart-panel-actions button:first-child {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    .cart-panel-actions button:last-child {
+      background: var(--accent-3);
+      color: #111827;
+    }
+
+    .cart-panel-actions button:hover {
+      transform: translateY(-1px);
+    }
+
+    .cart-panel-related {
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+    }
+
+    .related-grid {
+      display: grid;
+      gap: 0.4rem;
+      margin-top: 0.3rem;
+    }
+
+    .related-item {
+      border-radius: 0.7rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.4rem 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .related-item button {
+      border-radius: 999px;
+      border: none;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.72rem;
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      border-top: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 1.5rem 0 2rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-card {
+        order: -1;
+      }
+
+      .benefits-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .categories-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .catalog-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .deals-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .support-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .navbar-inner {
+        flex-wrap: wrap;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .tagline-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .tagline-note {
+        text-align: left;
+      }
+
+      .carousel-slide {
+        height: 240px;
+      }
+
+      .catalog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 540px) {
+      .benefits-grid,
+      .categories-grid,
+      .catalog-grid,
+      .deals-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .container {
+        padding: 0 1rem;
+      }
+
+      .hero-card {
+        padding: 1.1rem;
+      }
+
+      .carousel {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- CART PANEL & OVERLAY -->
+  <div id="cartOverlay" class="cart-overlay"></div>
+  <aside id="cartPanel" class="cart-panel">
+    <div class="cart-panel-header">
+      <h3>Producto añadido al carrito</h3>
+      <button class="cart-panel-close" id="cartPanelCloseBtn" aria-label="Cerrar panel">✕</button>
+    </div>
+    <div class="cart-panel-body">
+      <div id="cartPanelItems"></div>
+      <div class="cart-panel-related">
+        <strong>También podría interesarte</strong>
+        <div class="related-grid" id="relatedGrid"></div>
+      </div>
+    </div>
+    <div class="cart-panel-footer">
+      <div class="cart-panel-footer-total">
+        <span>Total del carrito</span>
+        <span id="cartPanelTotal"></span>
+      </div>
+      <div class="cart-panel-actions">
+        <button id="cartPanelContinue">Continuar comprando</button>
+        <button id="cartPanelCheckout">Ir al carrito</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <div class="nav-left">
+        <div class="logo-mark">PK</div>
+        <div class="logo-text">PIXELKEYS</div>
+      </div>
+      <nav class="nav-links">
+        <a href="#top">Inicio</a>
+        <a href="#catalog">Catálogo</a>
+        <a href="#deals">Ofertas</a>
+        <a href="#support">Soporte</a>
+      </nav>
+      <div class="nav-right">
+        <div id="currencyChip" class="chip" title="Cambiar moneda">
+          <span class="chip-dot"></span>
+          <span id="currencyLabel">MXN</span>
+        </div>
+
+        <div class="cart-wrapper" id="cartWrapper">
+          <button class="cart-button" id="cartButton" type="button">
+            🛒
+            <span class="cart-badge" id="cartBadge">0</span>
+          </button>
+          <div class="mini-cart" id="miniCart">
+            <div class="mini-cart-header">Carrito</div>
+            <div class="mini-cart-items" id="miniCartItems"></div>
+            <div class="mini-cart-footer">
+              <div class="mini-cart-total">
+                <span>Total</span>
+                <span id="miniCartTotal"></span>
+              </div>
+              <div class="mini-cart-actions">
+                <button id="miniCartView">Ir al carrito</button>
+                <button id="miniCartCheckout">Terminar compra</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="position: relative;">
+          <button class="btn-outline" id="loginToggle" type="button">
+            Iniciar sesión
+          </button>
+          <div class="login-dropdown" id="loginDropdown">
+            <div class="login-title">Bienvenido a PixelKeys</div>
+            <button class="btn-social google" type="button">
+                <span class="icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png" width="22" alt="Google">
+                </span>
+                <span class="social-text">Continuar con Google</span>
+            </button>
+            <button class="btn-social facebook" type="button">
+                <span class="icon">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" width="22" alt="Facebook">
+                </span>
+                <span class="social-text">Continuar con Facebook</span>
+            </button>
+            <div class="login-divider"></div>
+            <button class="btn-login-submit" type="button">Acceder</button>
+            <p class="login-legal">
+              Al hacer clic en Continuar con Google o Facebook aceptas las condiciones de PixelKeys
+              <a href="terminos.html#terminos" target="_blank">Términos y condiciones</a> y
+              <a href="terminos.html#privacidad" target="_blank">Política de privacidad</a>.
+            </p>
+            <p class="login-register">
+              ¿No tienes cuenta?
+              <a href="#catalog">Regístrate desde tu primera compra</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span>Entrega automática de claves digitales</span>
+          </div>
+          <h1 class="hero-title">
+            Compra claves digitales <span>al instante</span>.
+          </h1>
+          <p class="hero-subtitle">
+            PixelKeys conecta jugadores con licencias originales de juegos, software y servicios digitales, con precios transparentes y entrega inmediata.
+          </p>
+
+          <div class="hero-tags">
+            <span>Precios bajos</span>
+            <span>•</span>
+            <span>Entrega automática</span>
+            <span>•</span>
+            <span>Multimoneda</span>
+          </div>
+
+          <div class="hero-btns">
+            <button class="btn-primary" id="btnExplore">
+              Explorar catálogo
+              <span>⟶</span>
+            </button>
+            <button class="btn-ghost" onclick="document.getElementById('support').scrollIntoView({behavior:'smooth'})">
+              Ver cómo funciona
+              <span>▶</span>
+            </button>
+          </div>
+
+          <div class="hero-meta">
+            <span><strong>+500</strong> productos digitales</span>
+            <span><strong>24/7</strong> soporte en línea</span>
+            <span><strong>Protección</strong> al comprador</span>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <span class="hero-card-tag">Panel de control del jugador</span>
+          <div class="hero-card-main">
+            <div class="hero-card-copy">
+              <h2>Tu biblioteca en un solo lugar</h2>
+              <p>Activa tus claves en Steam, Xbox, PlayStation, EA app y más. Todo organizado por plataforma y estado.</p>
+            </div>
+            <div class="hero-controller" aria-hidden="true">
+              <div class="hero-controller-inner">
+                <div class="pad-cross">
+                  <div class="pad-dot"></div>
+                  <div class="pad-dot"></div>
+                  <div class="pad-dot"></div>
+                  <div class="pad-dot"></div>
+                </div>
+                <div class="pad-buttons">
+                  <div class="pad-btn"></div>
+                  <div class="pad-btn"></div>
+                  <div class="pad-btn"></div>
+                  <div class="pad-btn"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-card-footer">
+            <span>Activadas hoy: <strong>12 claves</strong></span>
+            <button type="button">Ver historial</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- TAGLINE -->
+    <section class="tagline">
+      <div class="container">
+        <div class="tagline-inner">
+          <div class="tagline-text">
+            <span>Insert the Key</span>
+            <span>Open the Gate</span>
+            <span>Play to the Game</span>
+          </div>
+          <p class="tagline-note">
+            Un solo código puede abrir mundos completos. PixelKeys se encarga de la parte complicada, tú solo eliges qué jugar.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED CAROUSEL -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Lanzamientos destacados</h2>
+            <p class="section-sub">Explora los títulos más buscados por la comunidad gamer.</p>
+          </div>
+          <p class="section-sub">Rotación automática cada 20 segundos.</p>
+        </div>
+
+        <div class="carousel" aria-label="Carrusel de juegos destacados">
+          <button class="carousel-arrow carousel-arrow-left" id="carouselPrev" aria-label="Juego anterior">‹</button>
+          <button class="carousel-arrow carousel-arrow-right" id="carouselNext" aria-label="Juego siguiente">›</button>
+
+          <div class="carousel-window">
+            <div class="carousel-track" id="carouselTrack">
+              <!-- Slide 1 -->
+              <article
+                class="carousel-slide"
+                data-product-id="cod-bo7"
+                style="background-image: url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3606480/d7041a15f572f7702d5f4bc97e498cd3e1cc62e2/header.jpg?t=1762888841');"
+              >
+                <div class="carousel-content">
+                  <div class="carousel-info">
+                    <h3>Call of Duty: Black Ops 7</h3>
+                    <p>Campaña cinemática, multijugador competitivo y modo zombies cooperativo para maratones con la escuadra.</p>
+                    <div class="carousel-tags">
+                      <span class="carousel-tag">Shooter</span>
+                      <span class="carousel-tag">Multijugador</span>
+                      <span class="carousel-tag">Battle.net</span>
+                    </div>
+                    <div class="carousel-price">
+                      Desde <strong data-price-for="cod-bo7"></strong>
+                    </div>
+                  </div>
+                  <div class="carousel-cta">
+                    <button class="btn-buy" type="button" onclick="addToCart('cod-bo7')">Comprar ahora</button>
+                    <span class="carousel-timer" id="carouselTimer">Siguiente juego en 20s</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Slide 2 -->
+              <article
+                class="carousel-slide"
+                data-product-id="bf6"
+                style="background-image: url('https://cdn1.epicgames.com/offer/a14a02aa3c8143729605eaf7c93d7501/EGS_Battlefield6_BattlefieldStudios_S1_2560x1440-6a45f8547ef32debb4e18b178809d63a');"
+              >
+                <div class="carousel-content">
+                  <div class="carousel-info">
+                    <h3>Battlefield 6</h3>
+                    <p>Batallas masivas, destrucción total y vehículos icónicos en mapas dinámicos con clima extremo.</p>
+                    <div class="carousel-tags">
+                      <span class="carousel-tag">FPS</span>
+                      <span class="carousel-tag">64+ jugadores</span>
+                      <span class="carousel-tag">EA App / Steam</span>
+                    </div>
+                    <div class="carousel-price">
+                      Desde <strong data-price-for="bf6"></strong>
+                    </div>
+                  </div>
+                  <div class="carousel-cta">
+                    <button class="btn-buy" type="button" onclick="addToCart('bf6')">Comprar ahora</button>
+                    <span class="carousel-timer">Rotación automática</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Slide 3 -->
+              <article
+                class="carousel-slide"
+                data-product-id="eafc26"
+                style="background-image: url('https://tvazteca.brightspotcdn.com/5b/60/67003a4f4b9f8618ac9d5e743e66/ea-sports-fc-26-pc-steam-cover.jpg');"
+              >
+                <div class="carousel-content">
+                  <div class="carousel-info">
+                    <h3>EA Sports FC 26</h3>
+                    <p>Construye tu club soñado, juega temporadas completas y escala divisiones en línea con amigos.</p>
+                    <div class="carousel-tags">
+                      <span class="carousel-tag">Deportes</span>
+                      <span class="carousel-tag">Ultimate Team</span>
+                      <span class="carousel-tag">Multiplataforma</span>
+                    </div>
+                    <div class="carousel-price">
+                      Desde <strong data-price-for="eafc26"></strong>
+                    </div>
+                  </div>
+                  <div class="carousel-cta">
+                    <button class="btn-buy" type="button" onclick="addToCart('eafc26')">Comprar ahora</button>
+                    <span class="carousel-timer">Rotación automática</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Slide 4: PixelKeys Collection -->
+              <article
+                class="carousel-slide"
+                data-product-id="pk-collection"
+                style="background-image: url('https://lh3.google.com/u/1/d/1CJxZgZzYJgLe4BGwhIGHT0wrN1bZWjl7=w2548-h1251-iv1?auditContext=thumbnail&auditContext=prefetch');"
+              >
+                <div class="carousel-content">
+                  <div class="carousel-info">
+                    <h3>PixelKeys Collection</h3>
+                    <p>Combos especiales con licencias de Windows, Office y antivirus a precio de estudiante.</p>
+                    <div class="carousel-tags">
+                      <span class="carousel-tag">Bundles</span>
+                      <span class="carousel-tag">Software</span>
+                      <span class="carousel-tag">Entrega inmediata</span>
+                    </div>
+                    <div class="carousel-price">
+                      Desde <strong data-price-for="pk-collection"></strong>
+                    </div>
+                  </div>
+                  <div class="carousel-cta">
+                    <button class="btn-buy" type="button" onclick="addToCart('pk-collection')">Ver bundles</button>
+                    <span class="carousel-timer">Rotación automática</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="carousel-dots" id="carouselDots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">¿Por qué elegir PixelKeys?</h2>
+          <p class="section-sub">Diseñado para gamers, estudiantes y creadores de contenido.</p>
+        </div>
+
+        <div class="benefits-grid">
+          <article class="benefit-card">
+            <div class="benefit-icon">⚡</div>
+            <div class="benefit-title">Entrega inmediata</div>
+            <p class="benefit-text">Recibe tu clave en segundos después de confirmar el pago, lista para activar en tu plataforma favorita.</p>
+          </article>
+
+          <article class="benefit-card">
+            <div class="benefit-icon">🛡️</div>
+            <div class="benefit-title">Pagos seguros</div>
+            <p class="benefit-text">Integración con pasarelas confiables para proteger tus datos y tus compras.</p>
+          </article>
+
+          <article class="benefit-card">
+            <div class="benefit-icon">🎮</div>
+            <div class="benefit-title">Catálogo curado</div>
+            <p class="benefit-text">Juegos populares, licencias de productividad y tarjetas de regalo seleccionadas por la comunidad.</p>
+          </article>
+
+          <article class="benefit-card">
+            <div class="benefit-icon">💬</div>
+            <div class="benefit-title">Soporte que responde</div>
+            <p class="benefit-text">¿Problemas con una activación? Nuestro equipo te acompaña paso a paso hasta que quede listo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES / EXPLORA CATEGORÍAS -->
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Explora por categoría</h2>
+          <p class="section-sub">Atajos rápidos para que encuentres lo que necesitas en segundos.</p>
+        </div>
+
+        <div class="categories-grid">
+          <article class="category-card" data-category-filter="juegos">
+            <div class="category-icon">🎮</div>
+            <div class="category-label">Juegos</div>
+            <p class="category-desc">Claves para Steam, Xbox, PlayStation y más plataformas.</p>
+          </article>
+          <article class="category-card" data-category-filter="software">
+            <div class="category-icon">💼</div>
+            <div class="category-label">Software</div>
+            <p class="category-desc">Windows, Office, herramientas creativas y utilidades.</p>
+          </article>
+          <article class="category-card" data-category-filter="giftcards">
+            <div class="category-icon">🎁</div>
+            <div class="category-label">Gift Cards</div>
+            <p class="category-desc">Saldo para tiendas digitales y servicios premium.</p>
+          </article>
+          <article class="category-card" data-category-filter="streaming">
+            <div class="category-icon">📺</div>
+            <div class="category-label">Streaming</div>
+            <p class="category-desc">Planes para música, series, deporte y entretenimiento.</p>
+          </article>
+          <article class="category-card" data-category-filter="flash">
+            <div class="category-icon">⚡</div>
+            <div class="category-label">Ofertas Flash</div>
+            <p class="category-desc">Descuentos de tiempo limitado para aprovechar al máximo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATALOGO GENERAL -->
+    <section class="catalog" id="catalog">
+      <div class="container">
+        <div class="catalog-header">
+          <div>
+            <h2 class="section-title">Catálogo completo</h2>
+            <p class="section-sub">Todos los productos disponibles en PixelKeys. Filtra, busca y encuentra tu próxima clave.</p>
+          </div>
+          <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input id="searchInput" class="search-input" type="text" placeholder="Buscar productos..." />
+          </div>
+        </div>
+
+        <div class="filter-chips">
+          <button class="filter-chip active" data-filter="all" type="button">Todos</button>
+          <button class="filter-chip" data-filter="juegos" type="button">Juegos</button>
+          <button class="filter-chip" data-filter="software" type="button">Software</button>
+          <button class="filter-chip" data-filter="giftcards" type="button">Gift Cards</button>
+          <button class="filter-chip" data-filter="streaming" type="button">Streaming</button>
+          <button class="filter-chip" data-filter="flash" type="button">Ofertas Flash</button>
+        </div>
+
+        <div class="catalog-grid" id="catalogGrid"></div>
+        <div class="catalog-empty" id="catalogEmpty" style="display:none;">
+          No se encontraron productos con los filtros y búsqueda actuales. Intenta con otro término o categoría.
+        </div>
+      </div>
+    </section>
+
+    <!-- DEALS / OFERTAS -->
+    <section class="section" id="deals">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Ofertas del día</h2>
+          <p class="section-sub">Ideal para mostrar en tu demo cómo PixelKeys también maneja promociones.</p>
+        </div>
+
+        <div class="deals-grid" id="dealsGrid">
+          <!-- Se rellenará con JS usando los productos marcados como flash deals -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section class="section" id="support">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Soporte y ayuda</h2>
+          <p class="section-sub">Resolvemos dudas frecuentes y te contamos cómo usamos pagos seguros.</p>
+        </div>
+
+        <div class="support-grid">
+          <div>
+            <div class="faq">
+              <details>
+                <summary>¿Cómo recibo mi clave después de comprar?</summary>
+                <p>En cuanto se confirme el pago, recibirás tu clave de forma inmediata en tu correo y en tu panel de usuario dentro de PixelKeys.</p>
+              </details>
+              <details>
+                <summary>¿Qué hago si una clave no funciona?</summary>
+                <p>Ponte en contacto con nuestro soporte compartiendo captura del error y los datos de tu compra. Validamos el caso y te ayudamos con un reemplazo o solución.</p>
+              </details>
+              <details>
+                <summary>¿Las claves son oficiales?</summary>
+                <p>Sí. Trabajamos con distribuidores verificados y licencias originales pensadas para activarse en plataformas como Steam, Battle.net, Xbox, PlayStation, EA app y más.</p>
+              </details>
+              <details>
+                <summary>¿Puedo pedir un reembolso?</summary>
+                <p>Por tratarse de productos digitales, los reembolsos aplican solo cuando la clave presenta problemas de activación y no hay alternativa de reemplazo.</p>
+              </details>
+              <details>
+                <summary>¿Qué plataformas soportan sus claves?</summary>
+                <p>Manejamos claves para Steam, EA App, Battle.net, Xbox, PlayStation, Ubisoft Connect y servicios de streaming según el producto.</p>
+              </details>
+            </div>
+          </div>
+
+          <div class="support-card">
+  <div>
+    <h3>Métodos de pago aceptados</h3>
+    <p class="support-text">Por el momento aceptamos pagos con:</p>
+
+    <div class="pay-icons" style="display:flex; justify-content:center;">
+      <img 
+        src="https://help.zazzle.com/hc/article_attachments/360010570753" 
+        alt="Métodos de pago" 
+        style="width: 320px; max-width: 100%; filter: brightness(1.1);">
+    </div>
+
+  </div>
+</div>
+
+            <div>
+              <h3>Sobre PixelKeys</h3>
+              <p>
+                PixelKeys es una plataforma enfocada en la venta de claves de software, videojuegos y servicios digitales.
+                Nuestro objetivo es ofrecer precios accesibles, entrega inmediata y una experiencia segura para gamers,
+                estudiantes y profesionales.
+              </p>
+            </div>
+
+            <div>
+              <h3>Contacto</h3>
+              <form class="contact-form" onsubmit="event.preventDefault(); alert('Gracias por tu mensaje. Esta es una demo de PixelKeys.');">
+                <div>
+                  <label for="contactName">Nombre completo</label>
+                  <input id="contactName" type="text" placeholder="Tu nombre" />
+                </div>
+                <div>
+                  <label for="contactEmail">Correo electrónico</label>
+                  <input id="contactEmail" type="email" placeholder="tucorreo@ejemplo.com" />
+                </div>
+                <div>
+                  <label for="contactSubject">Asunto</label>
+                  <input id="contactSubject" type="text" placeholder="Motivo de contacto" />
+                </div>
+                <div>
+                  <label for="contactMessage">Mensaje</label>
+                  <textarea id="contactMessage" placeholder="Cuéntanos en qué podemos ayudarte"></textarea>
+                </div>
+                <button type="submit">Enviar mensaje</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© PixelKeys – Insert the Key. Open the Gate. Play to the Game.</p>
+      <div class="footer-links">
+        <a href="#top">Inicio</a>
+        <a href="#deals">Ofertas</a>
+        <a href="#support">Ayuda</a>
+        <a href="terminos.html#terminos" target="_blank">Términos y condiciones</a>
+        <a href="terminos.html#privacidad" target="_blank">Política de privacidad</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // =========================
+    // CONFIGURACIÓN DE PRODUCTOS
+    // =========================
+    const products = [
+      // JUEGOS
+      {
+        id: "cod-bo7",
+        name: "Call of Duty: Black Ops 7",
+        category: "juegos",
+        basePriceUSD: 75,
+        platform: "Battle.net",
+        badge: "Nuevo",
+        badgeType: "primary",
+        tags: ["shooter", "fps", "multijugador"],
+        image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3606480/d7041a15f572f7702d5f4bc97e498cd3e1cc62e2/header.jpg?t=1762888841",
+        isFlashDeal: false
+      },
+      {
+        id: "bf6",
+        name: "Battlefield 6",
+        category: "juegos",
+        basePriceUSD: 60,
+        platform: "EA App / Steam",
+        badge: "Recomendado",
+        badgeType: "primary",
+        tags: ["fps", "batallas masivas"],
+        image: "https://cdn1.epicgames.com/offer/a14a02aa3c8143729605eaf7c93d7501/EGS_Battlefield6_BattlefieldStudios_S1_2560x1440-6a45f8547ef32debb4e18b178809d63a",
+        isFlashDeal: false
+      },
+      {
+        id: "eafc26",
+        name: "EA Sports FC 26",
+        category: "juegos",
+        basePriceUSD: 70,
+        platform: "EA App / Consolas",
+        badge: "Popular",
+        badgeType: "primary",
+        tags: ["fútbol", "deportes"],
+        image: "https://tvazteca.brightspotcdn.com/5b/60/67003a4f4b9f8618ac9d5e743e66/ea-sports-fc-26-pc-steam-cover.jpg",
+        isFlashDeal: false
+      },
+      {
+        id: "gow-pc",
+        name: "God of War – PC Edition",
+        category: "juegos",
+        basePriceUSD: 50,
+        platform: "Steam",
+        badge: "Historia épica",
+        badgeType: "primary",
+        tags: ["acción", "aventura"],
+        image: "https://image.api.playstation.com/vulcan/img/rnd/202010/2217/p3pYq0QxntZQREXRVdAzmn1w.png",
+        isFlashDeal: false
+      },
+      {
+        id: "elden-goty",
+        name: "Elden Ring – GOTY Edition",
+        category: "juegos",
+        basePriceUSD: 60,
+        platform: "Steam",
+        badge: "GOTY",
+        badgeType: "warning",
+        tags: ["soulslike", "fantasía"],
+        image: "https://www.nintendo.com/eu/media/images/assets/nintendo_switch_2_games/eldenringtarnishededition/2x1_NSwitch2_EldenRing.jpg",
+        isFlashDeal: true,
+        originalPriceUSD: 90,
+        flashTag: "-40%"
+      },
+      {
+        id: "cyberpunk-2077",
+        name: "Cyberpunk 2077 + Phantom Liberty",
+        category: "juegos",
+        basePriceUSD: 55,
+        platform: "GOG / Steam",
+        badge: "Expansión incluida",
+        badgeType: "primary",
+        tags: ["rpg", "mundo abierto"],
+        image: "https://cdn1.epicgames.com/offer/77f2b98e2cef40c8a7437518bf420e47/EGS_Cyberpunk2077_CDPROJEKTRED_S1_03_2560x1440-359e77d3cd0a40aebf3bbc130d14c5c7",
+        isFlashDeal: false
+      },
+
+      // SOFTWARE
+      {
+        id: "office-365",
+        name: "Microsoft Office 365 Pro Plus",
+        category: "software",
+        basePriceUSD: 12,
+        platform: "Cuenta anual",
+        badge: "Oferta estudiante",
+        badgeType: "warning",
+        tags: ["productividad"],
+        image: "https://i.blogs.es/4215c7/office/1366_2000.jpg",
+        isFlashDeal: true,
+        originalPriceUSD: 200,
+        flashTag: "-97%"
+      },
+      {
+        id: "win11-pro",
+        name: "Windows 11 Pro OEM",
+        category: "software",
+        basePriceUSD: 14,
+        platform: "Clave única",
+        badge: "Clave permanente",
+        badgeType: "primary",
+        tags: ["sistema operativo"],
+        image: "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/PT_RGB_Windows11_Pro_EN_375x375",
+        isFlashDeal: true,
+        originalPriceUSD: 140,
+        flashTag: "-90%"
+      },
+      {
+        id: "norton-av",
+        name: "Norton Antivirus",
+        category: "software",
+        basePriceUSD: 18,
+        platform: "Suscripción anual",
+        badge: "Seguridad",
+        badgeType: "primary",
+        tags: ["antivirus"],
+        image: "https://mx.norton.com/content/dam/norton/logo/image_norton_logo_yellow_bg_mobile_2x.jpg",
+        isFlashDeal: false
+      },
+      {
+        id: "nordvpn",
+        name: "NordVPN",
+        category: "software",
+        basePriceUSD: 10,
+        platform: "VPN multi-dispositivo",
+        badge: "Privacidad",
+        badgeType: "primary",
+        tags: ["vpn"],
+        image: "https://ic.nordcdn.com/v1/https://sb.nordcdn.com/transform/de3af5d2-7549-4841-a4c4-48f00c9ba1c3/logo-featured-blog-jpg?X-Nord-Credential=T4PcHqfACi8Naxvulzf4IE8XT4oypRTi0blOOGwbK2A8L4fcPw52k3qkvbkYH&X-Nord-Signature=8iqRmG595OV8ojGMfaf7BGjxl1E200Yl9nIlO2Z5P7s%3D",
+        isFlashDeal: false
+      },
+      {
+        id: "pk-collection",
+        name: "PixelKeys Collection – Bundle estudiante",
+        category: "software",
+        basePriceUSD: 29,
+        platform: "Windows + Office + Antivirus",
+        badge: "Bundle",
+        badgeType: "warning",
+        tags: ["bundle", "oferta"],
+        image: "https://lh3.google.com/u/1/d/1CJxZgZzYJgLe4BGwhIGHT0wrN1bZWjl7=w2548-h1251-iv1?auditContext=thumbnail&auditContext=prefetch",
+        isFlashDeal: false
+      },
+
+      // GIFTCARDS
+      {
+        id: "gp-100",
+        name: "Google Play 100 MXN",
+        category: "giftcards",
+        basePriceUSD: 6,
+        platform: "Código digital",
+        badge: "Saldo rápido",
+        badgeType: "primary",
+        tags: ["google play"],
+        image: "https://images.g2a.com/newlayout/880x450/1x1x0/6d2a0d60a2d5/5f291a967e696c4f3f121b42",
+        isFlashDeal: false
+      },
+      {
+        id: "gp-200",
+        name: "Google Play 200 MXN",
+        category: "giftcards",
+        basePriceUSD: 11,
+        platform: "Código digital",
+        badge: "Popular",
+        badgeType: "primary",
+        tags: ["google play"],
+        image: "https://images.g2a.com/newlayout/880x450/1x1x0/6d2a0d60a2d5/5f291a967e696c4f3f121b42",
+        isFlashDeal: false
+      },
+      {
+        id: "gp-500",
+        name: "Google Play 500 MXN",
+        category: "giftcards",
+        basePriceUSD: 26,
+        platform: "Código digital",
+        badge: "Regalo perfecto",
+        badgeType: "primary",
+        tags: ["google play"],
+        image: "https://images.g2a.com/newlayout/880x450/1x1x0/6d2a0d60a2d5/5f291a967e696c4f3f121b42",
+        isFlashDeal: false
+      },
+      {
+        id: "amazon-100",
+        name: "Amazon Gift Card 100 MXN",
+        category: "giftcards",
+        basePriceUSD: 6,
+        platform: "Código digital",
+        badge: "Amazon MX",
+        badgeType: "primary",
+        tags: ["amazon"],
+        image: "https://i0.wp.com/cdn.webadictos.net/media/2015/12/tarjetas-de-regalo-de-amazon-mexico.jpg?resize=800%2C480",
+        isFlashDeal: false
+      },
+      {
+        id: "amazon-500",
+        name: "Amazon Gift Card 500 MXN",
+        category: "giftcards",
+        basePriceUSD: 26,
+        platform: "Código digital",
+        badge: "Popular",
+        badgeType: "primary",
+        tags: ["amazon"],
+        image: "https://i0.wp.com/cdn.webadictos.net/media/2015/12/tarjetas-de-regalo-de-amazon-mexico.jpg?resize=800%2C480",
+        isFlashDeal: false
+      },
+      {
+        id: "amazon-1000",
+        name: "Amazon Gift Card 1000 MXN",
+        category: "giftcards",
+        basePriceUSD: 52,
+        platform: "Código digital",
+        badge: "Gran regalo",
+        badgeType: "primary",
+        tags: ["amazon"],
+        image: "https://i0.wp.com/cdn.webadictos.net/media/2015/12/tarjetas-de-regalo-de-amazon-mexico.jpg?resize=800%2C480",
+        isFlashDeal: false
+      },
+      {
+        id: "xbox-100",
+        name: "Xbox Gift Card 100 MXN",
+        category: "giftcards",
+        basePriceUSD: 6,
+        platform: "Xbox Store",
+        badge: "Xbox",
+        badgeType: "primary",
+        tags: ["xbox"],
+        image: "https://livecards.net/_pl/75898.jpg",
+        isFlashDeal: false
+      },
+      {
+        id: "xbox-200",
+        name: "Xbox Gift Card 200 MXN",
+        category: "giftcards",
+        basePriceUSD: 11,
+        platform: "Xbox Store",
+        badge: "Xbox",
+        badgeType: "primary",
+        tags: ["xbox"],
+        image: "https://livecards.net/_pl/75898.jpg",
+        isFlashDeal: false
+      },
+      {
+        id: "xbox-500",
+        name: "Xbox Gift Card 500 MXN",
+        category: "giftcards",
+        basePriceUSD: 26,
+        platform: "Xbox Store",
+        badge: "Xbox",
+        badgeType: "primary",
+        tags: ["xbox"],
+        image: "https://livecards.net/_pl/75898.jpg",
+        isFlashDeal: false
+      },
+
+      // STREAMING
+      {
+        id: "netflix-1m",
+        name: "Netflix Premium 1 mes",
+        category: "streaming",
+        basePriceUSD: 11,
+        platform: "Código prepago",
+        badge: "4K",
+        badgeType: "primary",
+        tags: ["netflix", "premium"],
+        image: "https://m.media-amazon.com/images/I/31JfJ6dXD9L.png",
+        isFlashDeal: true,
+        originalPriceUSD: 15,
+        flashTag: "-25%"
+      },
+      {
+        id: "prime-video",
+        name: "Amazon Prime Video 1 mes",
+        category: "streaming",
+        basePriceUSD: 7,
+        platform: "Cuenta / código prepago",
+        badge: "Series y pelis",
+        badgeType: "primary",
+        tags: ["prime video"],
+        image: "https://static.losnoticieristas.com/Prime-Video.jpg",
+        isFlashDeal: false
+      },
+      {
+        id: "hbo-max",
+        name: "HBO Max 1 mes",
+        category: "streaming",
+        basePriceUSD: 9,
+        platform: "Cuenta / código prepago",
+        badge: "Estrenos",
+        badgeType: "primary",
+        tags: ["hbo"],
+        image: "https://ca-times.brightspotcdn.com/dims4/default/fd3137a/2147483647/strip/true/crop/1920x1079+0+0/resize/1200x674!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F75%2Fb1%2Fe31f504eb42c8e4cd15cd24865e0%2Fbd021c8077d64c619623a18baea77c64",
+        isFlashDeal: false
+      },
+      {
+        id: "disney-plus",
+        name: "Disney Plus 1 mes",
+        category: "streaming",
+        basePriceUSD: 8,
+        platform: "Cuenta / código prepago",
+        badge: "Disney / Marvel",
+        badgeType: "primary",
+        tags: ["disney"],
+        image: "https://lumiere-a.akamaihd.net/v1/images/channel_list_disney-plus_391341c3.png?region=0%2C0%2C850%2C509",
+        isFlashDeal: false
+      }
+    ];
+
+    const relatedProductsMap = {
+      "cod-bo7": ["bf6", "eafc26", "cyberpunk-2077"],
+      "bf6": ["cod-bo7", "eafc26", "elden-goty"],
+      "eafc26": ["cod-bo7", "bf6", "netflix-1m"],
+      "gow-pc": ["elden-goty", "cyberpunk-2077"],
+      "elden-goty": ["gow-pc", "cyberpunk-2077"],
+      "cyberpunk-2077": ["elden-goty", "bf6"],
+      "office-365": ["win11-pro", "norton-av", "nordvpn"],
+      "win11-pro": ["office-365", "pk-collection"],
+      "pk-collection": ["win11-pro", "office-365"],
+      "netflix-1m": ["prime-video", "hbo-max", "disney-plus"],
+    };
+
+    // =========================
+    // ESTADO GLOBAL
+    // =========================
+    let currentCurrency = "MXN";
+    let exchangeRates = {
+      USD: 1,
+      MXN: 18,
+      EUR: 0.92,
+      COP: 3900
+    };
+    const supportedCurrencies = ["MXN", "USD", "EUR", "COP"];
+
+    let currentFilter = "all";
+    let currentSearchTerm = "";
+
+    let cart = {}; // { productId: quantity }
+
+    // =========================
+    // UTILIDADES
+    // =========================
+    function formatPrice(value, currency) {
+      const num = Number(value) || 0;
+      const options = {
+        style: "currency",
+        currency: currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      };
+      return num.toLocaleString("es-MX", options);
+    }
+
+    function getProductById(id) {
+      return products.find(p => p.id === id);
+    }
+
+    function convertPrice(usd) {
+      const rate = exchangeRates[currentCurrency] || 1;
+      return usd * rate;
+    }
+
+    // =========================
+    // CURRENCY LOGIC
+    // =========================
+    function initCurrency() {
+      const chip = document.getElementById("currencyChip");
+      const label = document.getElementById("currencyLabel");
+
+      function updateCurrencyLabel() {
+        label.textContent = currentCurrency;
+      }
+
+      chip.addEventListener("click", () => {
+        const idx = supportedCurrencies.indexOf(currentCurrency);
+        const nextIndex = (idx + 1) % supportedCurrencies.length;
+        currentCurrency = supportedCurrencies[nextIndex];
+        updateCurrencyLabel();
+        rerenderAllPrices();
+      });
+
+      updateCurrencyLabel();
+
+      // Intentar obtener tasas en tiempo real (base USD)
+      fetch("https://api.exchangerate.host/latest?base=USD&symbols=USD,MXN,EUR,COP")
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+          if (data && data.rates) {
+            exchangeRates.USD = data.rates.USD || 1;
+            exchangeRates.MXN = data.rates.MXN || exchangeRates.MXN;
+            exchangeRates.EUR = data.rates.EUR || exchangeRates.EUR;
+            exchangeRates.COP = data.rates.COP || exchangeRates.COP;
+            rerenderAllPrices();
+          }
+        })
+        .catch(() => {
+          // Si falla, se quedan los valores por defecto.
+        });
+    }
+
+    // =========================
+    // CARRUSEL
+    // =========================
+    function initCarousel() {
+      const track = document.getElementById("carouselTrack");
+      const slides = Array.from(track.children);
+      const dotsContainer = document.getElementById("carouselDots");
+      const dots = Array.from(dotsContainer.children);
+      const prevBtn = document.getElementById("carouselPrev");
+      const nextBtn = document.getElementById("carouselNext");
+      const timerLabel = document.getElementById("carouselTimer");
+
+      let currentIndex = 0;
+      let intervalId = null;
+      const INTERVAL = 20000;
+
+      function updateCarousel(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        currentIndex = index;
+
+        const offset = -index * 100;
+        track.style.transform = `translateX(${offset}%)`;
+
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+
+        if (timerLabel) {
+          timerLabel.textContent = "Siguiente juego en 20s";
+        }
+      }
+
+      function nextSlide() { updateCarousel(currentIndex + 1); }
+      function prevSlide() { updateCarousel(currentIndex - 1); }
+
+      function resetInterval() {
+        if (intervalId) clearInterval(intervalId);
+        intervalId = setInterval(nextSlide, INTERVAL);
+      }
+
+      nextBtn.addEventListener("click", () => {
+        nextSlide();
+        resetInterval();
+      });
+
+      prevBtn.addEventListener("click", () => {
+        prevSlide();
+        resetInterval();
+      });
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          updateCarousel(index);
+          resetInterval();
+        });
+      });
+
+      updateCarousel(0);
+      resetInterval();
+    }
+
+    // =========================
+    // CATALOGO
+    // =========================
+    function renderCatalog() {
+      const grid = document.getElementById("catalogGrid");
+      const emptyMsg = document.getElementById("catalogEmpty");
+      grid.innerHTML = "";
+
+      const filtered = products.filter(p => {
+        if (currentFilter === "juegos" && p.category !== "juegos") return false;
+        if (currentFilter === "software" && p.category !== "software") return false;
+        if (currentFilter === "giftcards" && p.category !== "giftcards") return false;
+        if (currentFilter === "streaming" && p.category !== "streaming") return false;
+        if (currentFilter === "flash" && !p.isFlashDeal) return false;
+
+        if (currentSearchTerm) {
+          const haystack = (p.name + " " + p.category + " " + (p.platform || "") + " " + (p.tags || []).join(" ")).toLowerCase();
+          if (!haystack.includes(currentSearchTerm)) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        emptyMsg.style.display = "block";
+        return;
+      } else {
+        emptyMsg.style.display = "none";
+      }
+
+      filtered.forEach(product => {
+        const card = document.createElement("article");
+        card.className = "product-card";
+        card.dataset.productId = product.id;
+
+        const thumb = document.createElement("div");
+        thumb.className = "product-thumb";
+        thumb.style.backgroundImage = `url('${product.image}')`;
+        card.appendChild(thumb);
+
+        const body = document.createElement("div");
+        body.className = "product-body";
+
+        const nameEl = document.createElement("div");
+        nameEl.className = "product-name";
+        nameEl.textContent = product.name;
+        body.appendChild(nameEl);
+
+        const meta = document.createElement("div");
+        meta.className = "product-meta";
+        const platformSpan = document.createElement("span");
+        platformSpan.textContent = product.platform || "";
+        const badgeContainer = document.createElement("div");
+        badgeContainer.className = "product-badges";
+        if (product.badge) {
+          const badge = document.createElement("span");
+          badge.className = "badge " + (product.badgeType || "");
+          badge.textContent = product.badge;
+          badgeContainer.appendChild(badge);
+        }
+        meta.appendChild(platformSpan);
+        meta.appendChild(badgeContainer);
+        body.appendChild(meta);
+
+        card.appendChild(body);
+
+        const footer = document.createElement("div");
+        footer.className = "product-footer";
+        const priceEl = document.createElement("div");
+        priceEl.className = "product-price";
+        priceEl.innerHTML = `Desde <strong data-price-for="${product.id}"></strong>`;
+        footer.appendChild(priceEl);
+
+        const btn = document.createElement("button");
+        btn.className = "btn-add";
+        btn.type = "button";
+        btn.textContent = "Añadir al carrito";
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          addToCart(product.id);
+        });
+        footer.appendChild(btn);
+
+        card.appendChild(footer);
+
+        grid.appendChild(card);
+      });
+
+      updatePriceElements();
+    }
+
+    function initFiltersAndSearch() {
+      const filterButtons = document.querySelectorAll(".filter-chip");
+      filterButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          filterButtons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentFilter = btn.dataset.filter || "all";
+          renderCatalog();
+          document.getElementById("catalog").scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
+      const searchInput = document.getElementById("searchInput");
+      searchInput.addEventListener("input", (e) => {
+        currentSearchTerm = (e.target.value || "").toLowerCase();
+        renderCatalog();
+      });
+
+      // Categoria cards -> filtrar y hacer scroll
+      const categoryCards = document.querySelectorAll(".category-card");
+      categoryCards.forEach(card => {
+        card.addEventListener("click", () => {
+          const cat = card.dataset.categoryFilter;
+          const targetBtn = document.querySelector(`.filter-chip[data-filter="${cat === "flash" ? "flash" : cat}"]`);
+          if (targetBtn) {
+            document.querySelectorAll(".filter-chip").forEach(b => b.classList.remove("active"));
+            targetBtn.classList.add("active");
+          }
+          currentFilter = cat === "flash" ? "flash" : cat;
+          currentSearchTerm = "";
+          document.getElementById("searchInput").value = "";
+          renderCatalog();
+          document.getElementById("catalog").scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
+      // Botón Explorar catálogo (Hero)
+      document.getElementById("btnExplore").addEventListener("click", () => {
+        currentFilter = "all";
+        currentSearchTerm = "";
+        document.getElementById("searchInput").value = "";
+        document.querySelectorAll(".filter-chip").forEach(b => {
+          b.classList.toggle("active", b.dataset.filter === "all");
+        });
+        renderCatalog();
+        document.getElementById("catalog").scrollIntoView({ behavior: "smooth" });
+      });
+    }
+
+    // =========================
+    // DEALS / OFERTAS FLASH
+    // =========================
+    function renderDeals() {
+      const dealsGrid = document.getElementById("dealsGrid");
+      dealsGrid.innerHTML = "";
+
+      const deals = products.filter(p => p.isFlashDeal);
+      deals.forEach(p => {
+        const card = document.createElement("article");
+        card.className = "deal-card";
+
+        const tag = document.createElement("span");
+        tag.className = "deal-tag";
+        tag.textContent = p.flashTag || "Oferta";
+        card.appendChild(tag);
+
+        const title = document.createElement("div");
+        title.className = "deal-title";
+        title.textContent = p.name;
+        card.appendChild(title);
+
+        const meta = document.createElement("p");
+        meta.className = "deal-meta";
+        meta.textContent = p.platform || "";
+        card.appendChild(meta);
+
+        const price = document.createElement("div");
+        price.className = "deal-price";
+        const strong = document.createElement("strong");
+        strong.dataset.priceFor = p.id;
+        price.appendChild(strong);
+        if (p.originalPriceUSD) {
+          const old = document.createElement("span");
+          old.className = "deal-old";
+          old.dataset.originalPriceFor = p.id;
+          price.appendChild(old);
+        }
+        card.appendChild(price);
+
+        const footer = document.createElement("div");
+        footer.className = "deal-footer";
+        const left = document.createElement("span");
+        left.textContent = p.category === "juegos" ? "Clave digital" : "Código prepago";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "Agregar al carrito";
+        btn.addEventListener("click", () => addToCart(p.id));
+        footer.appendChild(left);
+        footer.appendChild(btn);
+        card.appendChild(footer);
+
+        dealsGrid.appendChild(card);
+      });
+
+      updatePriceElements();
+    }
+
+    // =========================
+    // PRECIOS (ACTUALIZAR TODOS)
+    // =========================
+    function updatePriceElements() {
+      // Para cada elemento con data-price-for
+      const priceEls = document.querySelectorAll("[data-price-for]");
+      priceEls.forEach(el => {
+        const id = el.getAttribute("data-price-for");
+        const product = getProductById(id);
+        if (!product) return;
+        const price = convertPrice(product.basePriceUSD);
+        el.textContent = formatPrice(price, currentCurrency);
+      });
+
+      // Precios tachados originales en ofertas
+      const origEls = document.querySelectorAll("[data-original-price-for]");
+      origEls.forEach(el => {
+        const id = el.getAttribute("data-original-price-for");
+        const product = getProductById(id);
+        if (!product || !product.originalPriceUSD) return;
+        const orig = convertPrice(product.originalPriceUSD);
+        el.textContent = formatPrice(orig, currentCurrency);
+      });
+
+      // Actualizar totales de carrito
+      updateCartTotals();
+    }
+
+    function rerenderAllPrices() {
+      // Vuelve a renderizar catálogo y deals para asegurar coherencia
+      renderCatalog();
+      renderDeals();
+      updatePriceElements();
+    }
+
+    // =========================
+    // CARRITO
+    // =========================
+    function loadCart() {
+      try {
+        const stored = localStorage.getItem("pixelkeys_cart");
+        if (stored) {
+          cart = JSON.parse(stored) || {};
+        }
+      } catch (e) {
+        cart = {};
+      }
+      updateCartBadge();
+      renderMiniCart();
+      updateCartPanel();
+    }
+
+    function saveCart() {
+      localStorage.setItem("pixelkeys_cart", JSON.stringify(cart));
+    }
+
+    function cartItemCount() {
+      return Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+    }
+
+    function cartTotalUSD() {
+      return Object.entries(cart).reduce((sum, [id, qty]) => {
+        const product = getProductById(id);
+        if (!product) return sum;
+        return sum + product.basePriceUSD * qty;
+      }, 0);
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById("cartBadge");
+      const count = cartItemCount();
+      badge.textContent = count;
+    }
+
+    function updateCartTotals() {
+      const totalUSD = cartTotalUSD();
+      const totalConverted = convertPrice(totalUSD);
+      const formatted = formatPrice(totalConverted, currentCurrency);
+
+      const miniTotal = document.getElementById("miniCartTotal");
+      if (miniTotal) miniTotal.textContent = formatted;
+
+      const panelTotal = document.getElementById("cartPanelTotal");
+      if (panelTotal) panelTotal.textContent = formatted;
+    }
+
+    function renderMiniCart() {
+      const container = document.getElementById("miniCartItems");
+      container.innerHTML = "";
+      const items = Object.entries(cart);
+      if (items.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "mini-cart-empty";
+        empty.textContent = "Tu carrito está vacío.";
+        container.appendChild(empty);
+        return;
+      }
+
+      items.forEach(([id, qty]) => {
+        const product = getProductById(id);
+        if (!product) return;
+        const row = document.createElement("div");
+        row.className = "mini-cart-item";
+
+        const name = document.createElement("div");
+        name.className = "mini-cart-name";
+        name.textContent = `${product.name} × ${qty}`;
+        const price = document.createElement("div");
+        price.className = "mini-cart-price";
+        const totalUSD = product.basePriceUSD * qty;
+        price.textContent = formatPrice(convertPrice(totalUSD), currentCurrency);
+
+        row.appendChild(name);
+        row.appendChild(price);
+        container.appendChild(row);
+      });
+    }
+
+    function updateCartPanel(lastAddedId) {
+      const itemsContainer = document.getElementById("cartPanelItems");
+      const relatedContainer = document.getElementById("relatedGrid");
+      itemsContainer.innerHTML = "";
+      relatedContainer.innerHTML = "";
+
+      if (!cart || Object.keys(cart).length === 0) {
+        const msg = document.createElement("div");
+        msg.textContent = "Tu carrito está vacío. Agrega algo desde el catálogo.";
+        itemsContainer.appendChild(msg);
+        return;
+      }
+
+      // Mostrar solo el último producto añadido de forma destacada
+      const id = lastAddedId || Object.keys(cart)[0];
+      const qty = cart[id];
+      const product = getProductById(id);
+      if (product) {
+        const item = document.createElement("div");
+        item.className = "cart-panel-item";
+        const name = document.createElement("div");
+        name.className = "cart-panel-item-name";
+        name.textContent = product.name;
+        const meta = document.createElement("div");
+        meta.className = "cart-panel-item-meta";
+        meta.textContent = `${product.platform || ""} • Cantidad: ${qty}`;
+        const price = document.createElement("div");
+        const totalUSD = product.basePriceUSD * qty;
+        price.textContent = `Subtotal: ${formatPrice(convertPrice(totalUSD), currentCurrency)}`;
+        item.appendChild(name);
+        item.appendChild(meta);
+        item.appendChild(price);
+        itemsContainer.appendChild(item);
+      }
+
+      // Productos relacionados
+      const relatedIds = relatedProductsMap[id] || [];
+      const relatedProducts = relatedIds
+        .map(pid => getProductById(pid))
+        .filter(Boolean)
+        .slice(0, 3);
+
+      if (relatedProducts.length === 0) {
+        // fallback: otros de la misma categoría
+        const category = product ? product.category : null;
+        const sameCategory = products.filter(p => p.category === category && p.id !== id).slice(0, 3);
+        sameCategory.forEach(p => relatedProducts.push(p));
+      }
+
+      relatedProducts.forEach(prod => {
+        const row = document.createElement("div");
+        row.className = "related-item";
+        const info = document.createElement("span");
+        info.textContent = prod.name;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "Añadir";
+        btn.addEventListener("click", () => addToCart(prod.id));
+        row.appendChild(info);
+        row.appendChild(btn);
+        relatedContainer.appendChild(row);
+      });
+
+      updateCartTotals();
+    }
+
+    function openCartPanel(lastAddedId) {
+      const overlay = document.getElementById("cartOverlay");
+      const panel = document.getElementById("cartPanel");
+      updateCartPanel(lastAddedId);
+      overlay.style.display = "block";
+      panel.classList.add("open");
+    }
+
+    function closeCartPanel() {
+      const overlay = document.getElementById("cartOverlay");
+      const panel = document.getElementById("cartPanel");
+      overlay.style.display = "none";
+      panel.classList.remove("open");
+    }
+
+    function addToCart(productId) {
+      const current = cart[productId] || 0;
+      cart[productId] = current + 1;
+      saveCart();
+      updateCartBadge();
+      renderMiniCart();
+      openCartPanel(productId);
+    }
+
+    function initCartUI() {
+      const wrapper = document.getElementById("cartWrapper");
+      const miniCart = document.getElementById("miniCart");
+
+      wrapper.addEventListener("mouseenter", () => {
+        if (cartItemCount() > 0) {
+          miniCart.style.display = "block";
+        }
+      });
+      wrapper.addEventListener("mouseleave", () => {
+        miniCart.style.display = "none";
+      });
+
+      document.getElementById("miniCartView").addEventListener("click", () => {
+        alert("Vista de carrito completa estará disponible en una versión futura de PixelKeys.");
+      });
+      document.getElementById("miniCartCheckout").addEventListener("click", () => {
+        alert("Flujo de compra estará disponible en una versión futura de PixelKeys.\nPor ahora es una demo.");
+      });
+
+      document.getElementById("cartPanelCloseBtn").addEventListener("click", closeCartPanel);
+      document.getElementById("cartOverlay").addEventListener("click", closeCartPanel);
+      document.getElementById("cartPanelContinue").addEventListener("click", closeCartPanel);
+      document.getElementById("cartPanelCheckout").addEventListener("click", () => {
+        alert("Flujo de compra estará disponible en una versión futura de PixelKeys.\nEsta vista es demostrativa.");
+      });
+    }
+
+    // =========================
+    // LOGIN DROPDOWN
+    // =========================
+    function initLoginDropdown() {
+      const toggle = document.getElementById("loginToggle");
+      const dropdown = document.getElementById("loginDropdown");
+
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isVisible = dropdown.style.display === "block";
+        dropdown.style.display = isVisible ? "none" : "block";
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!dropdown.contains(e.target) && e.target !== toggle) {
+          dropdown.style.display = "none";
+        }
+      });
+
+      const socialButtons = dropdown.querySelectorAll(".btn-social, .btn-login-submit");
+      socialButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          alert("Inicio de sesión simulado para demo.\nEn una implementación real se conectaría con un sistema de autenticación.");
+        });
+      });
+    }
+
+    // =========================
+    // INIT GENERAL
+    // =========================
+    document.addEventListener("DOMContentLoaded", () => {
+      initCurrency();
+      initCarousel();
+      initFiltersAndSearch();
+      renderCatalog();
+      renderDeals();
+      loadCart();
+      initCartUI();
+      initLoginDropdown();
+      updatePriceElements();
+    });
+  </script>
+</body>
+</html>
